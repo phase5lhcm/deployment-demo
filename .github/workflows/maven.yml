@@ -18,7 +18,6 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +30,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install
-    - name: Build docker image and push to Dockerhub
+
     - uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: chrissyrianna/github-actions-demo
