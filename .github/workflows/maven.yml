@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Maven and SonarQube
 
 on:
   push:
@@ -12,6 +12,19 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      sonarqube:
+        image: sonarqube:latest
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd="curl -s http://localhost:9000/api/system/health | grep -q UP"
+          --health-interval=30s
+          --health-timeout=10s
+          --health-retries=20
+        env:
+          SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
 
     steps:
       - uses: actions/checkout@v4
@@ -31,10 +44,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn sonar:sonar 
-          -Dsonar.projectKey=github-actions-demo 
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          mvn sonar:sonar \
+            -Dsonar.projectKey=github-actions-demo \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       - name: Check SonarQube Cache Directory
         run: |
