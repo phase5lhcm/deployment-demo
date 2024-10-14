@@ -15,8 +15,5 @@ ENV DB_URL=${DB_CONTAINER_NAME_URL}
 ENV ACTIVE_PROFILE=${PROFILE}
 ENV JAR_VERSION=${APP_VERSION}
 
-# Set the ENTRYPOINT to always run the JAR file
-ENTRYPOINT ["java", "-jar", "github-actions-demo.jar"]
-
-# CMD to use environment variables for profile and datasource
-CMD ["-Dspring.profiles.active=${ACTIVE_PROFILE}", "-Dspring.datasource.url=${DB_URL}", "github-actions-demo-${JAR_VERSION}.jar"]
+# Use ENTRYPOINT to run the Java application with necessary environment variables
+ENTRYPOINT ["java", "-Dspring.profiles.active=${ACTIVE_PROFILE}", "-Dspring.datasource.url=${DB_URL}", "-jar", "github-actions-demo-${JAR_VERSION}.jar"]
