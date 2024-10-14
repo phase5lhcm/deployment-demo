@@ -23,11 +23,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Cache SonarQube packages
+      - name: Check SonarQube Cache Directory
         run: |
           echo "Listing ~/.sonar directory:"
           ls -la ~/.sonar
+          
+          
+          - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
