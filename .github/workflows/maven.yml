@@ -25,6 +25,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache SonarQube packages
+        run: |
+          echo "Listing ~/.sonar directory:"
+          ls -la ~/.sonar
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
